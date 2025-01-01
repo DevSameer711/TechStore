@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "react-countup": "^6.5.3",
+    "react-intersection-observer": "^9.13.1"
+  }
+}
