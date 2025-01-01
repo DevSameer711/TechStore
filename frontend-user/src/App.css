@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ant-menu-light {
+  background: transparent !important;
+}
+/* Custom Swiper Styles */
+.swiper-pagination-bullet {
+  background: #4F46E5;
+}
+
+.swiper-pagination-bullet-active {
+  background: #4F46E5 !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #4F46E5;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #4F46E5;
+  color: white;
+}
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
+.react-multi-carousel-list {
+  padding: 0px 50px 50px 50px !important;
+}
