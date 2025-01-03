@@ -17,6 +17,7 @@ import ContactUs from "./pages/ContactUs.jsx";
 import WishlistPage from "./pages/WishlistPage.jsx";
 import AboutUsPage from "./pages/AboutUs.jsx";
 import ProfilePage from "./pages/Profile.jsx";
+import ProductDetailsPage from "./components/ProductDetails.jsx";
 
 const stripePromise = loadStripe('pk_test_51QXn1tE9bihR1atBVnHb9MXoDspjhmvMxzbPun1Ntv9OQW1YwBZmamlaO5b8kN8FhbDKAzhNVuUl1HlkmvWd8NuN007TmtSGIf');
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/wishlist" element={<ProtectedRoute element={<WishlistPage />} />} />
         <Route path="/PaymentSuccess" element={<ProtectedRoute element={<PaymentSuccess />} />} />
         <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
+        <Route path="/product/:id" element={<ProtectedRoute element={<ProductDetailsPage />} />} />
       </Routes>
       <Footer/>
       <CheckoutModal />

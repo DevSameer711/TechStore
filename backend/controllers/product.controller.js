@@ -1,9 +1,95 @@
 import Product from '../models/product.model.js'; // Import Product model
 import fs from 'fs';
 import path from 'path';
+import { PythonShell } from 'python-shell'; 
 import { fileURLToPath } from "url";
+//import { loadModel, predictImage } from "../utils/imageClassifier.js";
+import { spawn } from 'child_process';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
+// Load the model once during server initialization
+
+
+
+// Route to handle image prediction
+// export const predictImageWithModel = async (req, res) => {
+//   try {
+//     const file = req.file; // Uploaded image
+
+//     if (!file) {
+//       return res.status(400).json({ message: "No image file uploaded" });
+//     }
+//     console.log(file); 
+//     // Path to the Python script
+//     const pythonScriptPath = path.join(__dirname, 'scripts', 'prediction.py');
+
+//     // Spawn a child process to run the Python script
+//     const pythonProcess = spawn('python', [pythonScriptPath, path.normalize(file.path).replace(/\\/g, '/')]);
+
+
+//     let prediction = '';
+
+//     pythonProcess.stdout.on('data', (data) => {
+//       prediction += data.toString();
+//     });
+
+//     pythonProcess.stderr.on('data', (data) => {
+//       console.error(`Error from Python script: ${data.toString()}`);
+//     });
+
+//     pythonProcess.on('close', (code) => {
+//       if (code === 0) {
+//         console.log(`Prediction result: ${prediction.trim()}`); // Debugging
+//         return res.status(200).json({ prediction: prediction.trim() });
+//       } else {
+//         return res.status(500).json({ message: "Prediction failed" });
+//       }
+//     });
+//   } catch (error) {
+//     console.error(`Error in prediction handler: ${error}`);
+//     res.status(500).json({ message: "An error occurred while predicting the image" });
+//   }
+// };
+export const predictImageWithModel = async (req, res) => {
+  try {
+    const file = req.file; // Uploaded image
+    if (!file) {
+      return res.status(400).json({ message: "No image file uploaded" });
+    }
+
+    // Path to the Python script
+    const pythonScriptPath = path.join(__dirname, 'scripts', 'prediction.py');
+
+    // Spawn a child process to run the Python script
+    const pythonProcess = spawn('python', [pythonScriptPath, file.path]);
+
+    let prediction = '';
+
+    pythonProcess.stdout.on('data', (data) => {
+      prediction += data.toString();
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+      console.error(`Error from Python script: ${data.toString()}`);
+    });
+
+    pythonProcess.on('close', (code) => {
+      if (code === 0) {
+        console.log(`Prediction result: ${prediction.trim()}`); // Debugging
+        return res.status(200).json({ prediction: prediction.trim() });
+      } else {
+        return res.status(500).json({ message: "Prediction failed" });
+      }
+    });
+  } catch (error) {
+    console.error(`Error in prediction handler: ${error}`);
+    res.status(500).json({ message: "An error occurred while predicting the image" });
+  }
+};
+
+
 
 
 // Add new product
@@ -36,6 +122,9 @@ export const addProduct = async (req, res) => {
     res.status(500).json({ message: 'An error occurred while adding the product' });
   }
 };
+
+
+
 
 export const updateProduct = async (req, res) => {
   const { id } = req.params; // Get the productId from the route parameter

@@ -43,7 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use("/product/", productRouter);
+app.use("/product", productRouter);
 app.use("/admin/", adminRouter);
 app.use('/', authRoutes);
 app.use('/cart', cartRoutes);
